@@ -29,6 +29,9 @@ public class IsPlayer : MonoBehaviour
     public List<Sprite> augmentSprites;
     public GameObject augmentUI;
 
+    public AudioClip levelUpSound;
+    public AudioClip upgradeSelectedSound;
+
     private void Start()
     {
         // hide the augment UI
@@ -73,6 +76,9 @@ public class IsPlayer : MonoBehaviour
 
 		// update our stat UI
 		levelText.text = "Level " + level;
+
+        // play a sound
+        AudioSource.PlayClipAtPoint(levelUpSound, transform.position);
     }
 
     private void SetRandomOptions()
@@ -161,7 +167,7 @@ public class IsPlayer : MonoBehaviour
 				// kill all enemies
                 foreach(Transform enemy in enemyManager.transform)
                 {
-                    Destroy(enemy);
+                    Destroy(enemy.gameObject);
                 }
 				break;
 			case 8:
@@ -171,5 +177,8 @@ public class IsPlayer : MonoBehaviour
 			default:
                 break;
         }
+
+        // play a sound
+        AudioSource.PlayClipAtPoint(upgradeSelectedSound, transform.position);
     }
 }

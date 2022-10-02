@@ -16,6 +16,8 @@ public class JumpsOnClick : MonoBehaviour
 
 	public bool isOnPlanet = false;
 
+	public AudioClip jumpSound;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -100,6 +102,9 @@ public class JumpsOnClick : MonoBehaviour
 				rb.velocity = launchDirection * movementSpeed;
 
 				isOnPlanet = false;
+
+				// play a sound
+				AudioSource.PlayClipAtPoint(jumpSound, transform.position);
 			}
 		}
 

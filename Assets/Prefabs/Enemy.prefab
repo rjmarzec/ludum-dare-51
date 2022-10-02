@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1656912508010273073}
   - component: {fileID: 1656912508010273072}
-  - component: {fileID: 1656912508010273075}
   - component: {fileID: 1656912508010273074}
   - component: {fileID: 1656912508010273078}
+  - component: {fileID: 991589313453398830}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1656912508010273069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.042452812, g: 0.17829503, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 40125fd1bdf5194409e91df6ce7f1f9b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,22 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &1656912508010273075
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656912508010273069}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &1656912508010273074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,8 +102,10 @@ MonoBehaviour:
   health: 200
   movementSpeed: 0
   enemyProjectilePrefab: {fileID: 1615893882095836444, guid: e95dc7de5b1d8d84098772297a2e7676, type: 3}
-  meleeSprite: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
-  rangedSprite: {fileID: 21300000, guid: 748ae8b33df036b46a86e0387f1602cf, type: 3}
+  meleeSprite: {fileID: 21300000, guid: edbde22f6b92b9d43a7b859a5e1203b6, type: 3}
+  rangedSprite: {fileID: 21300000, guid: 40125fd1bdf5194409e91df6ce7f1f9b, type: 3}
+  fireSound: {fileID: 8300000, guid: 7ef4c2087c521154faf96d990f57194e, type: 3}
+  deathSound: {fileID: 8300000, guid: 11db0ea0a3c6904468f22fdb56660ad2, type: 3}
 --- !u!50 &1656912508010273078
 Rigidbody2D:
   serializedVersion: 4
@@ -141,3 +127,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!70 &991589313453398830
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656912508010273069}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 0.75}
+  m_Direction: 1

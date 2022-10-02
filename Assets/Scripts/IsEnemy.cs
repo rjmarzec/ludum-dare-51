@@ -20,7 +20,11 @@ public class IsEnemy : MonoBehaviour
     public Sprite meleeSprite;
     public Sprite rangedSprite;
 
-    void Start()
+    public AudioClip fireSound;
+    public AudioClip deathSound;
+
+
+	void Start()
     {
         player = FindObjectOfType<IsPlayer>().gameObject;
         rb = GetComponent<Rigidbody2D>();
@@ -49,7 +53,7 @@ public class IsEnemy : MonoBehaviour
 		}
 
 		// make the enemy always point in their direction of motion and never spinning due to physics collisions
-		float movementAngle = Vector2.Angle(Vector2.up, GetComponent<Rigidbody2D>().velocity);
+		float movementAngle = Vector2.Angle(Vector2.right, movementDirection);
 		transform.rotation = Quaternion.Euler(0, 0, movementAngle);
 		GetComponent<Rigidbody2D>().angularVelocity = 0;
 	}
@@ -59,11 +63,15 @@ public class IsEnemy : MonoBehaviour
 		// get the vector between the player and this enemy
 		Vector2 enemyToPlayer = (player.transform.position - transform.position).normalized;
 
-        // spawn the projectile
-        GameObject enemyProjectile = Instantiate(enemyProjectilePrefab, transform.position, Quaternion.identity);
+		// spawn the projectile
+		float movementAngle = Vector2.Angle(Vector2.right, enemyToPlayer);
+		GameObject enemyProjectile = Instantiate(enemyProjectilePrefab, transform.position, Quaternion.Euler(0, 0, movementAngle));
 
-        // give the projectile velocity in some direction
-        enemyProjectile.GetComponent<Rigidbody2D>().velocity = enemyToPlayer * 10.0f;
+		// give the projectile velocity in some direction
+		enemyProjectile.GetComponent<Rigidbody2D>().velocity = enemyToPlayer * 10.0f;
+
+        // play a sound
+        AudioSource.PlayClipAtPoint(fireSound, transform.position);
 	}
 
     public void TakeDamage(float damage)
@@ -117,6 +125,9 @@ public class IsEnemy : MonoBehaviour
     {
 		// give the player xp
 		player.GetComponent<IsPlayer>().AddXP(1);
+
+        // play a sound
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
 
         // destroy this gameobject
         Destroy(gameObject);

@@ -20,6 +20,8 @@ public class FiresOnClick : MonoBehaviour
     public float bulletSizeScalar = 1.0f;
     public float bulletSpeed = 60.0f;
 
+    public AudioClip fireSound;
+
     void Start()
     {
         jumpsOnClick = GetComponent<JumpsOnClick>();
@@ -84,5 +86,8 @@ public class FiresOnClick : MonoBehaviour
 			randomizedBullet.transform.localScale *= bulletSizeScalar;
 			randomizedBullet.GetComponent<Rigidbody2D>().velocity = randomizedDirection * bulletSpeed;
 		}
+
+        // play a sound
+        AudioSource.PlayClipAtPoint(fireSound, transform.position);
 	}
 }

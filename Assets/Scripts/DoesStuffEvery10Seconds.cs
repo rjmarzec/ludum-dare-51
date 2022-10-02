@@ -15,7 +15,7 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
 
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI planetCounter;
-    private int planetCount = 0;
+    public static int planetCount = 0;
 
     [Space]
 
@@ -39,6 +39,8 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
     public float sizeVariance = 2.0f;
 
     public List<Material> planetMaterials;
+
+    public AudioClip spawnPlanetSound;
 
     [Space]
 
@@ -67,6 +69,8 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
         {
             SpawnNewPlanet();
         }
+
+        planetCount = 0;
     }
 
     void Update()
@@ -131,12 +135,15 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
 
         // give the planet a random material
         newPlanet.GetComponent<MeshRenderer>().material = planetMaterials[Random.Range(0, planetMaterials.Count)];
+
+        // play a sound
+        AudioSource.PlayClipAtPoint(spawnPlanetSound, newPlanet.transform.position);
     }
 
     private void SpawnNewEnemies()
     {
-        // start by spawning 1 enemy every time this funciton gets called, increasing by 1 every minute
-        for(int i = 0; i < (int)(timer/60) + 1; i++)
+        // start by spawning 1 enemy every time this funciton gets called, increasing by 1 every 30 seconds
+        for(int i = 0; i < (int)(timer/30) + 1; i++)
         {
             // spawn a new enemy, with the distance away being the farthest ring
             GameObject newEnemy = Instantiate(enemyPrefab, enemyManager);
@@ -159,7 +166,8 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
 		}
 
         // increase the base health of each enemy exponentially with time
-        enemyHealth *= 1.04f;
+        enemyHealth *= 1.08f;
+        enemyHealth += 2;
     }
 
     private int GetNextRingNumber()

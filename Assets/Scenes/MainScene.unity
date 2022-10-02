@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -508,6 +509,102 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trackingRatePerFrame: 0.9
   targetGameObject: {fileID: 1512321761}
+--- !u!82 &519420034
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 37fcb66b0085d8d44aec202e80067b77, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &704338127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,6 +1936,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: e6e6597c50b7b314fadc9c9af5e16186, type: 2}
   - {fileID: 2100000, guid: 2739715a10829ca439d0ba0932470844, type: 2}
   - {fileID: 2100000, guid: fec0decb607ea8045b7d6a1d38ea8748, type: 2}
+  spawnPlanetSound: {fileID: 8300000, guid: 9dee386e99d3bfb4ba1462be12a93a45, type: 3}
   enemyManager: {fileID: 474277481}
   enemyPrefab: {fileID: 1656912508010273069, guid: b782774b57ec16a48ba26df3527bcfb3, type: 3}
   enemySizeAverage: 2
@@ -1987,6 +2085,7 @@ MonoBehaviour:
   movementSpeed: 20
   sr: {fileID: 1047250185}
   isOnPlanet: 0
+  jumpSound: {fileID: 8300000, guid: e95d405d54d612e4b98e951c79bb52ad, type: 3}
 --- !u!50 &1512321765
 Rigidbody2D:
   serializedVersion: 4
@@ -1999,7 +2098,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000000
   m_LinearDrag: 0
   m_AngularDrag: 1000000
   m_GravityScale: 0
@@ -2062,6 +2161,7 @@ MonoBehaviour:
   bulletDamage: 5
   bulletSizeScalar: 1
   bulletSpeed: 30
+  fireSound: {fileID: 8300000, guid: 6f44d5c664a5dbe4698a6e251dfa21a9, type: 3}
 --- !u!1 &1748846382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2130,6 +2230,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 764f6adf0e4f399429917340fad2b673, type: 3}
   - {fileID: 21300000, guid: 01dff4a9ab6284f4eb09c5721c8e1e4d, type: 3}
   augmentUI: {fileID: 977326351}
+  levelUpSound: {fileID: 8300000, guid: 69f6d878d3b671f498a203678dfe786e, type: 3}
+  upgradeSelectedSound: {fileID: 8300000, guid: 810f7262daee47048a848c3f75785735, type: 3}
 --- !u!58 &1748846385
 CircleCollider2D:
   m_ObjectHideFlags: 0

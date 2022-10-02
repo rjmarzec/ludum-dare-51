@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndsGame : MonoBehaviour
 {
     public void EndGame()
     {
-        print("GG!");
+        SceneManager.LoadScene("EndScreen");
     }
 }

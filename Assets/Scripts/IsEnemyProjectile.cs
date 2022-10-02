@@ -20,8 +20,8 @@ public class IsEnemyProjectile : MonoBehaviour
 		}
 
 		// set the rotation of the projectile to point in the direction of motion
-		float movementAngle = Vector2.Angle(Vector2.up, GetComponent<Rigidbody2D>().velocity);
-		transform.rotation = Quaternion.Euler(0, 0, movementAngle);
+		float movementAngle = Vector2.Angle(Vector2.right, GetComponent<Rigidbody2D>().velocity.normalized);
+		transform.rotation = Quaternion.Euler(0, 0, movementAngle + 90);
 		GetComponent<Rigidbody2D>().angularVelocity = 0;
 	}
 
