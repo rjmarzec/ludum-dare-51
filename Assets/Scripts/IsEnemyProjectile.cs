@@ -28,12 +28,24 @@ public class IsEnemyProjectile : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		// if this bullet collided with the player, it's game over!
-		if (collision.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+		if (collision.transform.gameObject.layer == LayerMask.NameToLayer("PlayerHealth"))
 		{
 			FindObjectOfType<EndsGame>().EndGame();
+		}
+		else if (collision.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+		{
+			return;
 		}
 
 		// destroy this projectile on contact with a planet
 		Destroy(gameObject);
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.transform.gameObject.layer == LayerMask.NameToLayer("PlayerHealth"))
+		{
+			FindObjectOfType<EndsGame>().EndGame();
+		}
 	}
 }

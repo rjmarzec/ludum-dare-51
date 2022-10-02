@@ -27,16 +27,18 @@ public class IsPlayerProjectile : MonoBehaviour
         if (collision.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             collision.transform.gameObject.GetComponent<IsEnemy>().TakeDamage(damage);
-
-            // allow the bullet to pierce multiple enemies if it still has pierces remaining
-            if(piercingCount > 0)
-            {
-                piercingCount--;
-                return;
-            }
         }
 
-		// destroy this projectile on contact with a planet
-		Destroy(gameObject);
+        // allow the bullet to pierce multiple things if it still has pierces remaining
+        if (piercingCount > 1)
+        {
+            piercingCount--;
+        }
+        else
+        {
+			Destroy(gameObject);
+		}
+
+		
     }
 }

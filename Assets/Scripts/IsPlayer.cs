@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Xml.XPath;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class IsPlayer : MonoBehaviour
 {
+    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI xpText;
+
     public JumpsOnClick jumpsOnClick;
     public FiresOnClick firesOnClick;
     public DoesStuffEvery10Seconds doesStuffEvery10Seconds;
@@ -23,13 +27,17 @@ public class IsPlayer : MonoBehaviour
     private int option1, option2, option3;
     public Button button1, button2, button3;
     public List<Sprite> augmentSprites;
-    public Canvas augmentUI;
+    public GameObject augmentUI;
 
     private void Start()
     {
         // hide the augment UI
-        augmentUI.enabled = false;
-    }
+        augmentUI.SetActive(false);
+
+		// update our stat UI
+		xpText.text = xp + "/" + xpPerLevel * level + " Kills To Level";
+		levelText.text = "Level " + level;
+	}
 
     public void AddXP(int xpIn)
     {
@@ -40,9 +48,12 @@ public class IsPlayer : MonoBehaviour
             xp -= xpPerLevel * level;
             LevelUp();
         }
-    }
 
-    public void LevelUp()
+        // update our stat UI
+        xpText.text = xp + "/" + xpPerLevel * level + " Kills To Level";
+	}
+
+	public void LevelUp()
     {
         level++;
 
@@ -57,14 +68,15 @@ public class IsPlayer : MonoBehaviour
 		// pause time so the player has time to pick an upgrade
 		Time.timeScale = 0.0f;
 
-        // reveal the augment UI
-        augmentUI.enabled = true;
+		// reveal the augment UI
+		augmentUI.SetActive(true);
+
+		// update our stat UI
+		levelText.text = "Level " + level;
     }
 
     private void SetRandomOptions()
     {
-        List<int> returnList = new List<int>();
-
         // build a list of random numbers to pull from
         List<int> randomNumsList = new List<int>();
         for(int i = 0; i < augmentSprites.Count; i++)
@@ -72,16 +84,19 @@ public class IsPlayer : MonoBehaviour
             randomNumsList.Add(i);
         }
 
-        int randomIndex1 = randomNumsList[Random.Range(0, randomNumsList.Count)];
-        randomNumsList.RemoveAt(randomIndex1);
+        int randomNum1 = Random.Range(0, randomNumsList.Count);
+		int randomIndex1 = randomNumsList[randomNum1];
+        randomNumsList.RemoveAt(randomNum1);
         option1 = randomIndex1;
 
-		int randomIndex2 = randomNumsList[Random.Range(0, randomNumsList.Count)];
-		randomNumsList.RemoveAt(randomIndex2);
+		int randomNum2 = Random.Range(0, randomNumsList.Count);
+		int randomIndex2 = randomNumsList[randomNum2];
+		randomNumsList.RemoveAt(randomNum2);
 		option2 = randomIndex2;
 
-		int randomIndex3 = randomNumsList[Random.Range(0, randomNumsList.Count)];
-		randomNumsList.RemoveAt(randomIndex3);
+		int randomNum3 = Random.Range(0, randomNumsList.Count);
+		int randomIndex3 = randomNumsList[randomNum3];
+		randomNumsList.RemoveAt(randomNum3);
 		option3 = randomIndex3;
     }
 
@@ -102,11 +117,11 @@ public class IsPlayer : MonoBehaviour
 
 	private void ApplyUpgrade(int upgradeIndex)
     {
-        // hide the augment UI
-        augmentUI.enabled = true;
+		// hide the augment UI
+		augmentUI.SetActive(false);
 
-        // restore time
-        Time.timeScale = 1.0f;
+		// restore time
+		Time.timeScale = 1.0f;
 
         // there's probably a much cleaner way to do this, but nothing comes to mind
         // because of late night game jam brain :)
@@ -134,7 +149,7 @@ public class IsPlayer : MonoBehaviour
 				break;
 			case 5:
                 // bullet size
-                firesOnClick.bulletSizeScalar *= 1.2f;
+                firesOnClick.bulletSizeScalar *= 1.4f;
 				break;
 			case 6:
                 // spawn extra planets

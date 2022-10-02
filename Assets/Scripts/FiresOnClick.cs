@@ -5,6 +5,9 @@ using UnityEngine;
 public class FiresOnClick : MonoBehaviour
 {
     private JumpsOnClick jumpsOnClick;
+    public SpriteRenderer playerSprite;
+    public Sprite idleSprite;
+    public Sprite angrySprite;
 
     public GameObject bulletPrefab;
     public float fireCooldown = 0.5f;
@@ -39,8 +42,18 @@ public class FiresOnClick : MonoBehaviour
                     timer = fireCooldown;
 					FireProjectile();
 				}
+
+                playerSprite.sprite = angrySprite;
             }
+            else
+            {
+				playerSprite.sprite = idleSprite;
+			}
         }
+        else
+        {
+			playerSprite.sprite = idleSprite;
+		}
 	}
 
     private void FireProjectile()

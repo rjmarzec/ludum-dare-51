@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -9,6 +10,12 @@ using UnityEngine;
 public class DoesStuffEvery10Seconds : MonoBehaviour
 {
 	private float timer;
+
+    [Space]
+
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI planetCounter;
+    private int planetCount = 0;
 
     [Space]
 
@@ -72,6 +79,17 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
         {
             Every10Seconds();
         }
+
+        timerText.text = "" + (int)(timer % 10);
+        if(timer % 10 < 1)
+        {
+            timerText.text = "10";
+            timerText.color = Color.red;
+        }
+        else
+        {
+            timerText.color = Color.white;
+        }
     }
 
     private void Every10Seconds()
@@ -87,6 +105,9 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
 
     public void SpawnNewPlanet()
     {
+        planetCount++;
+        planetCounter.text = planetCount + " Planets In The System";
+
         // get the ring number to spawn this planet under
         int ringNumber = GetNextRingNumber();
 

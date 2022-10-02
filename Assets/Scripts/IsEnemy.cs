@@ -99,7 +99,15 @@ public class IsEnemy : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 		// if this enemy collids with the player, it's game over!
-		if (collision.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+		if (collision.transform.gameObject.layer == LayerMask.NameToLayer("PlayerHealth"))
+		{
+			FindObjectOfType<EndsGame>().EndGame();
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.transform.gameObject.layer == LayerMask.NameToLayer("PlayerHealth"))
 		{
 			FindObjectOfType<EndsGame>().EndGame();
 		}

@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  piercingCount: 0
 --- !u!114 &8016810321180792569
 MonoBehaviour:
   m_ObjectHideFlags: 0

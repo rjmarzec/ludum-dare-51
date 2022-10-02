@@ -5,6 +5,7 @@ using UnityEngine;
 public class JumpsOnClick : MonoBehaviour
 {
     public float movementSpeed = 40.0f;
+	public SpriteRenderer sr;
 
     private Rigidbody2D rb;
     private RotatesAround ra;
@@ -45,7 +46,14 @@ public class JumpsOnClick : MonoBehaviour
                 TryLaunchCharacter();
 			}
 		}
-    }
+
+		// set the rotation of the player to point in the direction of motion
+		if(rb.velocity.magnitude > 5.0f)
+		{
+			float movementAngle = Vector2.Angle(Vector2.up, rb.velocity);
+			sr.transform.rotation = Quaternion.Euler(0, 0, movementAngle);
+		}
+	}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
