@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -5,10 +6,15 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class SpawnsPlanets : MonoBehaviour
+public class DoesStuffEvery10Seconds : MonoBehaviour
 {
+	private float timer;
+
+    [Space]
+
 	public Transform planetManager;
 	public GameObject planetPrefab;
+	public List<int> spawnCounter;
 	public int startingPlanetCount = 5;
 	public int extraPlanetsPerRing = 3;
 
@@ -25,10 +31,20 @@ public class SpawnsPlanets : MonoBehaviour
     public float sizeAverage = 3.0f;
     public float sizeVariance = 2.0f;
 
-    public List<Material> materials;
+    public List<Material> planetMaterials;
 
-	private float timer;
-    public List<int> spawnCounter;
+    [Space]
+
+    public Transform enemyManager;
+    public GameObject enemyPrefab;
+
+    public float enemySizeAverage = 2.0f;
+    public float enemySizeVariance = 0.5f;
+
+    public float enemySpeedBase = 10.0f;
+    public float enemySpeedVariance = 5.0f;
+
+    public float enemyHealth = 25;
     
     void Start()
     {
@@ -63,17 +79,19 @@ public class SpawnsPlanets : MonoBehaviour
         // do something every 10 seconds! this will usually be spawning a planet,
         // but sometimes something extra as well
         SpawnNewPlanet();
+        SpawnNewEnemies();
 
-        // zoom out the camera
+        // zoom out the camera slightly
+        Camera.main.transform.position += Vector3.back * (1.0f/6.0f);
     }
 
-    private void SpawnNewPlanet()
+    public void SpawnNewPlanet()
     {
         // get the ring number to spawn this planet under
         int ringNumber = GetNextRingNumber();
 
         // spawn the planet at that ring, with the distance being randomly shifted closer or farther
-        GameObject newPlanet = Instantiate(planetPrefab);
+        GameObject newPlanet = Instantiate(planetPrefab, planetManager);
         newPlanet.transform.position = Vector2.up * (distanceFromSun + (distanceBetweenRingsAverage * ringNumber) + Random.Range(-distanceBetweenRingsOffset, distanceBetweenRingsOffset));
 
         // randomly rotate the planet around the center of the sun to give it a unique starting point
@@ -91,7 +109,36 @@ public class SpawnsPlanets : MonoBehaviour
         newPlanet.transform.localScale = Vector3.one * (sizeAverage + Random.Range(-sizeVariance, sizeVariance));
 
         // give the planet a random material
-        newPlanet.GetComponent<MeshRenderer>().material = materials[Random.Range(0, materials.Count)];
+        newPlanet.GetComponent<MeshRenderer>().material = planetMaterials[Random.Range(0, planetMaterials.Count)];
+    }
+
+    private void SpawnNewEnemies()
+    {
+        // start by spawning 1 enemy every time this funciton gets called, increasing by 1 every minute
+        for(int i = 0; i < (int)(timer/60) + 1; i++)
+        {
+            // spawn a new enemy, with the distance away being the farthest ring
+            GameObject newEnemy = Instantiate(enemyPrefab, enemyManager);
+			newEnemy.transform.position = Vector2.up * (distanceFromSun + (distanceBetweenRingsAverage * spawnCounter.Count) + Random.Range(-distanceBetweenRingsOffset, distanceBetweenRingsOffset));
+
+			// randomly rotate the enemy around the center of the sun to give it a unique starting point
+			newEnemy.transform.RotateAround(transform.position, Vector3.forward, Random.Range(0.0f, 360.0f));
+
+            // set the enemy's health
+            newEnemy.GetComponent<IsEnemy>().health = enemyHealth;
+
+            // randomize the enemy's size
+            newEnemy.transform.localScale = Vector3.one * (enemySizeAverage + Random.Range(-enemySizeVariance, enemySizeVariance));
+
+			// randomize the enemy's speed
+			newEnemy.GetComponent<IsEnemy>().movementSpeed = enemySpeedBase + Random.Range(-enemySpeedVariance, enemySpeedVariance);
+
+            // set the enemy's time: melee or ranged
+            newEnemy.GetComponent<IsEnemy>().SetType(Random.Range(0, 2) == 1);
+		}
+
+        // increase the base health of each enemy exponentially with time
+        enemyHealth *= 1.04f;
     }
 
     private int GetNextRingNumber()

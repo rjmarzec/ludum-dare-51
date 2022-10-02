@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpsOnClick : MonoBehaviour
 {
-    public float movementSpeed = 20;
+    public float movementSpeed = 40.0f;
 
     private Rigidbody2D rb;
     private RotatesAround ra;
@@ -12,6 +12,8 @@ public class JumpsOnClick : MonoBehaviour
     private Transform currentTarget = null;
 
     private Transform currentParent;
+
+	public bool isOnPlanet = false;
 
     private void Start()
     {
@@ -37,41 +39,11 @@ public class JumpsOnClick : MonoBehaviour
 		// when the player presses the right mouse button down, launch their character
 		if (Input.GetMouseButtonDown(1))
 		{
-            // get the camera we want to reference for jumps
-            Camera targetCamera = null;
-            foreach(Camera currentCamera in Camera.allCameras)
+			// only let the player jump if they are attached to a planet
+			if(currentParent != null)
             {
-                if(currentCamera.orthographic)
-                {
-                    targetCamera = currentCamera;
-                    break;
-                }
-            }
-
-			// get the direction from the player to the mouse. we'll use this as the launch direction
-			Vector2 cameraPosition = targetCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 characterPosition = transform.position;
-            Vector2 launchDirection = (cameraPosition - characterPosition).normalized;
-
-            // check to see if the player would hit a planet going this direction
-            RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(characterPosition, 1.0f/2, launchDirection, Mathf.Infinity, LayerMask.GetMask("Planet"));
-
-            foreach(RaycastHit2D raycastHit in raycastHits)
-            {
-                // ignore the current raycastHit if it's null or equal to our current parent
-                if (raycastHit.collider != null && raycastHit.transform != currentParent)
-                {
-                    // reset the object we're rotating around, since want to stop rotating around our current target
-                    transform.parent = null;
-                    currentTarget = raycastHit.collider.transform;
-                    ra.Reset();
-
-                    // launch the player in the direction of the new planet
-                    rb.velocity = launchDirection * movementSpeed;
-                }
-            }
-
-		    Debug.DrawRay(characterPosition, launchDirection * 20, Color.magenta, 3, false);
+                TryLaunchCharacter();
+			}
 		}
     }
 
@@ -93,6 +65,36 @@ public class JumpsOnClick : MonoBehaviour
 
             // reset the target so that the player doesn't get pulled towards the target more
             currentTarget = null;
+
+			isOnPlanet = true;
 		}
     }
+
+	private void TryLaunchCharacter()
+	{
+		// get the direction we'll be launching in
+		Vector2 launchDirection = Utils.GetMouseDirectionVector(transform);
+
+		// check to see if the player would hit a planet going this direction
+		RaycastHit2D[] raycastHits = Physics2D.CircleCastAll(transform.position, 1.0f / 2, launchDirection, Mathf.Infinity, LayerMask.GetMask("Planet"));
+
+		foreach (RaycastHit2D raycastHit in raycastHits)
+		{
+			// ignore the current raycastHit if it's null or equal to our current parent
+			if (raycastHit.collider != null && raycastHit.transform != currentParent)
+			{
+				// reset the object we're rotating around, since want to stop rotating around our current target
+				transform.parent = null;
+				currentTarget = raycastHit.collider.transform;
+				ra.Reset();
+
+				// launch the player in the direction of the new planet
+				rb.velocity = launchDirection * movementSpeed;
+
+				isOnPlanet = false;
+			}
+		}
+
+		Debug.DrawRay(transform.position, launchDirection * 20, Color.magenta, 3, false);
+	}
 }
