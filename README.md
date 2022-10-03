@@ -1,4 +1,4 @@
-# Stalwat Planet Guard
+# Stalwart Planet Guard
 > The legends say that every 10 seconds, a new planet is born…
 >
 > … at least, so long as Starworth the Stalwart Planet Guard is around to make sure nobody interrupts.
