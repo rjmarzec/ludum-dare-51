@@ -64,13 +64,13 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
         spawnCounter = new List<int>();
         spawnCounter.Add(0);
 
-        // spawn a couple planets to start with
-        for(int i = 0; i < startingPlanetCount; i++)
+		planetCount = 0;
+
+		// spawn a couple planets to start with
+		for (int i = 0; i < startingPlanetCount; i++)
         {
             SpawnNewPlanet();
         }
-
-        planetCount = 0;
     }
 
     void Update()
