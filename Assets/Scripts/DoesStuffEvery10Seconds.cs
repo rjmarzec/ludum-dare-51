@@ -50,10 +50,10 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
     public float enemySizeAverage = 2.0f;
     public float enemySizeVariance = 0.5f;
 
-    public float enemySpeedBase = 10.0f;
-    public float enemySpeedVariance = 5.0f;
+    public float enemySpeedBase = 3.0f;
+    public float enemySpeedVariance = 2.0f;
 
-    public float enemyHealth = 25;
+    public float enemyHealth = 20;
     
     void Start()
     {
@@ -166,7 +166,7 @@ public class DoesStuffEvery10Seconds : MonoBehaviour
 		}
 
         // increase the base health of each enemy exponentially with time
-        enemyHealth *= 1.08f;
+        enemyHealth *= 1.05f;
         enemyHealth += 2;
     }
 

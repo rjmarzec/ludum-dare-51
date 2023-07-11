@@ -20,6 +20,8 @@ public class Utils : MonoBehaviour
 		// get the direction from the player to the mouse. we'll use this as the launch direction
 		Vector2 cameraPosition = targetCamera.ScreenToWorldPoint(Input.mousePosition);
 		Vector2 characterPosition = character.position;
+		Debug.Log("@@@");
+		Debug.Log((cameraPosition - characterPosition).normalized);
 		return (cameraPosition - characterPosition).normalized;
 	}
 }
